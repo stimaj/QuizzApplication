@@ -1,0 +1,243 @@
+﻿<Window x:Class="QuizApp.LoginSreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuizApp"
+        mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="LoginSreen" Height="600" Width="1080" ResizeMode="NoResize" WindowStyle="None">
+    <!-- Move window border -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="20"/>
+    </WindowChrome.WindowChrome>
+    <!--Resources-->
+    <Window.Resources>
+        <ScaleTransform x:Key="FontStretchCondensed" ScaleX="0.8" />
+        <ScaleTransform x:Key="FontStretchExpanded" ScaleX="1.2" />
+        <ScaleTransform x:Key="FontStretchUltraExpanded" ScaleX="1.5" />
+        <Style TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="LayoutTransform" Value="{StaticResource FontStretchExpanded}" />
+            </Style.Setters>
+        </Style>
+        <!--Rounded button style with trigger-->
+        <Style TargetType="Button" x:Key="TabButton">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="{TemplateBinding Border.CornerRadius}" Background="{x:Null}" BorderBrush="#ccc" BorderThickness="1,1,1,1" >
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers >
+                <Trigger Property="IsMouseOver" Value="True" >
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="{TemplateBinding Border.CornerRadius}" Background="White" BorderBrush="Aqua" BorderThickness="1,1,1,1" >
+                                    <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="#2D3F50" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button" x:Key="roundedButton" BasedOn="{StaticResource TabButton}">
+            <Setter Property="Border.CornerRadius" Value="10,10,10,10" />
+        </Style>
+        <Style TargetType="Button" x:Key="SignUpShema">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="{TemplateBinding Border.CornerRadius}" Background="#2D3F50" BorderBrush="#2D3F50" BorderThickness="1,1,1,1" >
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="signUpStyle" BasedOn="{StaticResource SignUpShema}">
+            <Setter Property="Border.CornerRadius" Value="5,5,5,5" />
+        </Style>
+        <!--Check box custom Style-->
+        <Style TargetType="{x:Type CheckBox}" x:Key="CheckBox_RadioButtonStyle">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Background" Value="#2D3F50"/>
+            <Setter Property="BorderBrush" Value="#2D3F50"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="1" SnapsToDevicePixels="True" 
+                                        Stroke="#2D3F50" 
+                                        StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tick" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Ellipse x:Name="blackframe" Stroke="#2D3F50" Fill="#2D3F50" Width="16" Height="16"/>
+                            <Ellipse x:Name="background" Margin="2" Fill="White" Width="12" Height="12"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" Margin="5 0"/>
+                            <Path x:Name="tick" Fill="Black" Data="F1 M 4.325,7.852 C 4.175,7.852 4.026,7.807 3.900,7.720 L 0.325,5.262 C -0.016,5.027 -0.103,4.560 0.132,4.219 C 0.367,3.877 0.833,3.792 1.175,4.025 L 4.091,6.030 L 7.478,0.365 C 7.690,0.010 8.151,-0.107 8.506,0.106 C 8.861,0.319 8.978,0.779 8.765,1.135 L 4.969,7.486 C 4.863,7.664 4.688,7.790 4.485,7.834 C 4.432,7.846 4.378,7.852 4.325,7.852 L 4.325,7.852 Z" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid  VerticalAlignment="Top" >
+            <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" 
+                        HorizontalAlignment="Right" Width="1080">
+                <Grid HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="closeButton" Padding="0" Width="40" Height="40" Grid.Column="2" 
+                            Margin="0 2 0 0" Click="closeButton_Click_1" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="Close" Width="30" Height="30" Foreground="#2D3F50" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Image Source="images/splashImage.jpg" Stretch="Fill"/>
+            </Grid>
+            <Rectangle Fill="#2D3F50" Opacity="0.85"/>
+            <StackPanel Margin="30" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Welcome to " Foreground="White" FontSize="42"
+                               Margin="1 0 0 0"/>
+                    <TextBlock Text="MyAjarn" Foreground="White" FontSize="42" FontWeight="Bold"/>
+                </StackPanel>
+                <TextBlock TextWrapping="Wrap" Text="A community-based learning platform where students receive online lessons from professinoal instructors from all over the world on any subject."
+                           Foreground="White" Margin="0 20 0 40" FontSize="16"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="SignUpButton" Grid.Column="0" Content="SIGN UP" BorderBrush="White" Background="{x:Null}"
+                            Width="160" Height="50" Style="{StaticResource roundedButton}" Click="SignUpButton_Click"/>
+                    <Button x:Name="LoginButton" Grid.Column="1" Content="LOGIN" BorderBrush="White" Background="{x:Null}"
+                            Width="160" Height="50" Style="{StaticResource roundedButton}" Click="LoginButton_Click"/>
+                </Grid>
+            </StackPanel>
+            <StackPanel x:Name="SignUpLayout" Visibility="Collapsed" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="images/MyAjan Logo.png" Width="200" Height="200" 
+                                         HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                <TextBox materialDesign:HintAssist.Hint="YOUR NAME" Width="300" Padding="5 0 5 0" 
+                         Margin="0 0 0 10" Foreground="#2D3F50" BorderBrush="#2D3F50" SelectionBrush="Red"
+                         x:Name="nameOfUser"/>
+                <TextBox materialDesign:HintAssist.Hint="COUNTY" Width="300" Padding="5 0 5 0"
+                         Margin="0 0 0 10" Foreground="#2D3F50" BorderBrush="#2D3F50"
+                         x:Name="countryOfUser"/>
+                <TextBox materialDesign:HintAssist.Hint="EMAIL" Width="300" Padding="5 0 5 0"
+                         Margin="0 0 0 10" Foreground="#2D3F50" BorderBrush="#2D3F50"
+                         x:Name="emailOfUser"/>
+                <PasswordBox materialDesign:HintAssist.Hint="PASSWORD" Width="300" Padding="5 0 5 0"
+                         Margin="0 0 0 10" Foreground="#2D3F50" BorderBrush="#2D3F50" 
+                             x:Name="passwordOfUser"/>
+                <CheckBox Content="I accept terms and conditions and privacy policy" Foreground="#2D3F50"
+                          Margin="0 0 0 10" Style="{DynamicResource CheckBox_RadioButtonStyle}"
+                          x:Name="agreePrivacyPolicy"/>
+                <TextBlock Text="*Please fill all credential requirements."
+                           Foreground="Red"
+                           Visibility="Collapsed"
+                           x:Name="signUpWarrningMessage"/>
+                <Button Content="SIGN UP" Width="120" Height="40" Margin="0 20" Style="{StaticResource signUpStyle}"
+                        Click="SingUp_Clicked"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 60 0 0" >
+                    <TextBlock Text="Sign up with social media" Foreground="#2D3F50" Margin="0 0 20 0"
+                               VerticalAlignment="Center"/>
+                    <Button Foreground="White" Background="#3B5998" Padding="0" Width="30" Height="30" BorderBrush="{x:Null}"
+                            Style="{StaticResource MaterialDesignFloatingActionButton}">
+                        <materialDesign:PackIcon Kind="Facebook" />
+                    </Button>
+                    <Button Foreground="White" Background="#027AB9" Padding="0" Width="30" Height="30" Margin="10 0"
+                            Style="{StaticResource MaterialDesignFloatingActionButton}"  BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="Linkedin" />
+                    </Button>
+                    <Button Foreground="White" Background="#DC4E41" Padding="0" Width="30" Height="30"
+                            Style="{StaticResource MaterialDesignFloatingActionButton}"  BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="GooglePlus" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="LoginLayout" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="images/MyAjan Logo.png" Width="200" Height="200" 
+                                         HorizontalAlignment="Center" Margin="0 0 0 0"/>
+                
+                <TextBox materialDesign:HintAssist.Hint="EMAIL"
+                         Width="300"
+                         Padding="5 0 5 0"
+                         Margin="0 0 0 20" 
+                         Foreground="#2D3F50"
+                         BorderBrush="#2D3F50"
+                         x:Name="usernameTextBox"/>
+                <PasswordBox materialDesign:HintAssist.Hint="PASSWORD"
+                             Width="300"
+                             Padding="5 0 5 0"
+                             Margin="0 0 0 20"
+                             Foreground="#2D3F50"
+                             BorderBrush="#2D3F50"
+                             x:Name="passwordTextBox"/>
+                <TextBlock Text="*Please enter all credentials"
+                           Foreground="Red"
+                           Padding="5 0"
+                           Visibility="Collapsed"
+                           x:Name="warningLoginMessage"/>
+                <Button x:Name="Login" Content="LOG IN" Width="120" Height="40" Margin="0 20" Style="{StaticResource signUpStyle}"
+                        Click="Login_Click"/>
+                
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

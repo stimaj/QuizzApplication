@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="QuizApp.CustomControls.VotingStars"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuizApp"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="20" d:DesignWidth="80">
+    <Grid>
+        <StackPanel Orientation="Horizontal"
+                    x:Name="StarContainer">
+            <materialDesign:PackIcon Kind="StarBorder" Foreground="Yellow" x:Name="Star0"/>
+            <materialDesign:PackIcon Kind="StarBorder" Foreground="Yellow" x:Name="Star1"/>
+            <materialDesign:PackIcon Kind="StarBorder" Foreground="Yellow" x:Name="Star2"/>
+            <materialDesign:PackIcon Kind="StarBorder" Foreground="Yellow" x:Name="Star3"/>
+            <materialDesign:PackIcon Kind="StarBorder" Foreground="Yellow" x:Name="Star4"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

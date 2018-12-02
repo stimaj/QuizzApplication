@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="QuizApp.CustomControls.ChatListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuizApp.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="300">
+    <Grid Background="White"
+          Margin="0 1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="#2D3E50" 
+                   Height="40" 
+                   Width="4"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"/>
+        <Grid Margin="6 0 4 0" VerticalAlignment="Center">
+            <Border Name="imageMask"
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Right"
+                    CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                    Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                    Width="35"
+                    Background="White">
+            </Border>
+            <StackPanel >
+                <Grid Width="35" 
+                          Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                          VerticalAlignment="Top" HorizontalAlignment="Right">
+                    <Image Source="../images/avatar.png"/>
+                </Grid>
+                <StackPanel.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=imageMask}" />
+                </StackPanel.OpacityMask>
+            </StackPanel>
+        </Grid>
+        <TextBlock Grid.Column="1" 
+                   Text="Stefan D"
+                   Foreground="#2D3E50"
+                   VerticalAlignment="Center"
+                   FontSize="15"/>
+    </Grid>
+</UserControl>

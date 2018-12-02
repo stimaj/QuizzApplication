@@ -1,0 +1,276 @@
+﻿<Window x:Class="QuizApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QuizApp"
+        mc:Ignorable="d" Height="600" Width="1080" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Foreground="White"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:ViewModels="crl-namespace:QuizApp.ViewModels">
+    <!-- Resources -->
+    <Window.Resources >
+        <Storyboard x:Key="MenuOpen" >
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="40"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="250"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="userName">
+                <EasingDoubleKeyFrame KeyTime="0" Value="110"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="190"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="ProfileImageHolder">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuClose" >
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="250"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="40"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="userName">
+                <EasingDoubleKeyFrame KeyTime="0" Value="190"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="110"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="ProfileImageHolder">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <BitmapImage UriSource="/images/courseImage.jpg" x:Key="DefaultImage" />
+    </Window.Resources>
+    <!--Window movable properties-->
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="20"/>
+    </WindowChrome.WindowChrome>
+    <!--Nav bar triggers-->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu" >
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}" />
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu" >
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}" />
+        </EventTrigger>
+    </Window.Triggers>
+
+
+    <Grid Background="White">
+        <!--Custom Title line-->
+        <Grid Height="60" VerticalAlignment="Top" Background="#2D3E50" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" VerticalAlignment="Center" 
+                        HorizontalAlignment="Right" Width="800">
+                <Grid HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="closeButton" Padding="0" Width="30" Height="20" Grid.Column="2" 
+                            Margin="0 2 0 0" Click="closeButton_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="Close" Width="20" Foreground="Gray"/>
+                    </Button>
+                    <Button x:Name="maximizeButton" Padding="0" Width="30" Height="20" Grid.Column="1" 
+                            Margin="0 2 0 0" Click="maximizeButton_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="CropFree" Width="20" Foreground="Gray"/>
+                    </Button>
+                    <Button x:Name="minimizeButton" Padding="0" Width="30" Height="20" Grid.Column="0" 
+                            Margin="0 2 0 0" Click="minimizeButton_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <materialDesign:PackIcon Kind="WindowMinimize" Width="20" Foreground="Gray"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            <Grid VerticalAlignment="Bottom" Height="40" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" 
+                            Orientation="Horizontal" 
+                            MouseDown="StackPanel_MouseDown" 
+                            VerticalAlignment="Center" 
+                                HorizontalAlignment="Center" 
+                            Width="255" 
+                            Height="30" 
+                            Background="White" 
+                            Margin="100 0 0 0">
+                    <TextBox materialDesign:HintAssist.Hint="Search"
+                             Width="216" 
+                             FontSize="16" 
+                             Padding="5 0 0 0" 
+                             Background="White"
+                             Foreground="Gray"/>
+                    <Button Background="White" Height="Auto" Style="{x:Null}" Width="40"
+                            BorderThickness="0 0 0 1" BorderBrush="Gray">
+                        <materialDesign:PackIcon Kind="Search" VerticalAlignment="Center" Foreground="Gray" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50 0 0 0"
+                            Orientation="Horizontal">
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            Height="40" Width="40">
+                        <materialDesign:PackIcon Kind="Heart" Margin="0 0 5 0"/>
+                    </Button>
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                             Height="40" Width="40">
+                        <materialDesign:PackIcon Kind="Cart" Margin="0 0 5 0"/>
+                    </Button>
+                    <Button Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                             Height="40" Width="40">
+                        <materialDesign:PackIcon Kind="Bell" Margin="0 0 5 0"/>
+                    </Button>
+                </StackPanel>
+                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="5 5 10 5" Height="20"
+                                         PlacementMode="BottomAndAlignRightEdges" StaysOpen="False"
+                                         Grid.Column="2" RenderTransformOrigin="0.5,0.5">
+                    <materialDesign:PopupBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </materialDesign:PopupBox.RenderTransform>
+                    <materialDesign:PopupBox.ToggleContent>
+                        <materialDesign:PackIcon Kind="DotsHorizontal"  Foreground="White" Width="20"/>
+                    </materialDesign:PopupBox.ToggleContent>
+                    <StackPanel Width="150">
+                        <Button Content="Account" />
+                        <Button Content="Settings" />
+                        <Button Content="Help" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </Grid>
+        </Grid>
+        <Grid x:Name="GridMenu" 
+              Width="40" 
+              HorizontalAlignment="Left" 
+              Background="#21283E" 
+              Panel.ZIndex="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="197*"/>
+                <RowDefinition Height="103*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.RowSpan="2" >
+                <Grid Height="150" >
+                    <Rectangle Height="280" VerticalAlignment="Top">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.5, 1" StartPoint="0.5, 0">
+                                <GradientStop Color="#b0bcc7" />
+                                <GradientStop Color="#4f6a83" Offset="1" />
+                                <GradientStop Color="#21283E" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <StackPanel Orientation="Vertical" >
+                        <StackPanel>
+                            <Grid Margin="0 20 0 0">
+                                <Button x:Name="ButtonCloseMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="0" Margin="5"
+                                    Width="40" Height="40" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="Collapsed" Click="ButtonCloseMenu_Click">
+                                    <materialDesign:PackIcon Foreground="White" Kind="ArrowLeft" Width="30" Height="30" />
+                                </Button>
+                                <Button x:Name="ButtonOpenMenu" VerticalAlignment="Top" HorizontalAlignment="Right" Padding="0" Margin="1 1 1 5"
+                                    Width="40" Height="40" Background="{x:Null}" BorderBrush="{x:Null}" Click="ButtonOpenMenu_Click">
+                                    <materialDesign:PackIcon Foreground="White" Kind="Menu" Width="30" Height="30" />
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel x:Name="ProfileImageHolder" Orientation="Horizontal" Margin="0 10" Height="0" >
+                            <Grid VerticalAlignment="Center" Margin="5">
+                                <Border Name="imageMask" 
+                                    Background="White" 
+                                    CornerRadius="100" 
+                                    BorderThickness=".1" 
+                                    Width="50" 
+                                    Height="50">
+                                </Border>
+                                <StackPanel >
+                                    <Grid Width="40" Height="40" Margin="5">
+                                        <Image Source="images/avatar.png"/>
+                                    </Grid>
+                                    <StackPanel.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=imageMask}" />
+                                    </StackPanel.OpacityMask>
+                                </StackPanel>
+                            </Grid>
+                            <Grid>
+                                <TextBlock x:Name="userName" Text="Stefan Djuric " Foreground="White" Margin="10 5" Width="110" 
+                                           TextWrapping="Wrap" VerticalAlignment="Center" FontSize="20"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <ListView Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0 20 0 10">
+                    <ListViewItem x:Name="BrowseListItem" Uid="0" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" Foreground="#2E75B6">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="BriefcaseSearch" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Browse" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="1" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="MessageText" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Messages" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="2" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ViewDashboard" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Dash Board" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="3" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="HomeAccount" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="My Courses" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+                <Rectangle Height="1" Fill="White" Margin="20 0"/>
+                <ListView Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0 20 0 10">
+                    <ListViewItem Uid="4" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Calendar" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Schedule" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="5" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Wallet" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="My Wallet" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="6" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="GolfCourse" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Create a Course" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Uid="7" PreviewMouseLeftButtonDown="ListViewItem_PreviewMouseLeftButtonDown" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="School" Width="25" Height="25" VerticalAlignment="Center"/>
+                            <TextBlock Text="Become An Instructor" TextAlignment="Center" Margin="15, 1, 1, 1" FontSize="20"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="HomeTab" 
+                    Margin="60 60 20 0">
+            <local:BrowseFragment />
+        </Grid>
+        <Grid x:Name="MessageTab" 
+                    Margin="60 60 0 0" 
+                    Visibility="Collapsed">
+            <local:MessageFragment />
+        </Grid>
+        <Grid x:Name="CoursesTab" Margin="60 60 0 0" Visibility="Collapsed">
+            <TextBlock Text="Course TODO" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="50"/>
+        </Grid>
+        <Grid x:Name="SettingsTab" Margin="60 60 0 0" Visibility="Collapsed">
+            <TextBlock Text="Settings TODO" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="50"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="QuizApp.ExpandedCourseCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:QuizApp"
+             d:DesignHeight="400" d:DesignWidth="700">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="67*"/>
+            <RowDefinition Height="33*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="20 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="../images/courseImage.jpg"  Margin="5 0"/>
+            <StackPanel Grid.Column="1" Margin="10 30 10 10" >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Course Title:" Foreground="#2D3F50" 
+                               FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="Jomla For Beginners" FontSize="15"
+                               Margin="5 0 0 0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Schedule:" Foreground="#2D3F50" 
+                               FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="Jomla For Beginners"  FontSize="15"
+                               Margin="5 0 0 0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Lecturer:" Foreground="#2D3F50" 
+                               FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="Jomla For Beginners"  FontSize="15"
+                               Margin="5 0 0 0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Price:" Foreground="#2D3F50" 
+                               FontSize="15" FontWeight="Bold"/>
+                    <TextBlock Text="Jomla For Beginners"  FontSize="15"
+                               Margin="5 0 0 0"/>
+                </StackPanel>
+                <StackPanel Margin="0 20">
+                    <Button Content="Apply Now" Background="#2D3F50" Width="120" Margin="0 0 0 10"/>
+                    <Button Content="Add to Chart" Background="#2D3F50" Width="120" Margin="0 0 0 10"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="0" VerticalAlignment="Bottom">
+            <Rectangle Height="1" Fill="Gray" Margin="20 0"/>
+        </Grid>
+        <StackPanel Grid.Row="1" Margin="20" >
+            <TextBlock Text="Course Description" Foreground="#2D3F50"
+                       FontSize="25" FontWeight="Bold" />
+            <TextBlock FontSize="15" TextWrapping="Wrap" Text="This course teachs students how to work with Jomla in constructing web sites from scratch, we shall be teaching top notch techniques in developing large
+applications for the real world. We shall also be
+building your portfolio for future employers." Margin="0 0 100 0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
